@@ -5,13 +5,22 @@ source("load_names.R")
 source("helpers.R")
 
 shinyServer(function(input, output, session) {
-
-  #Update name selections based on nation selection
+  
+  #Update primary name choices based on gender selection
+  observe({
+    selected_gender <- input$genderInput
+    updateSelectInput(session,
+                      inputId = "nameInput1",
+                      choices = c("Select primary athlete..." = "",NAMES$name[NAMES$gender == selected_gender]))
+  })
+  
+  #Update opponent name selections based on primary name selection
   observe({
     selected_name <- input$nameInput1
     updateSelectInput(session,
                       inputId = "nameInput2",
-                      choices = c("",sort(unique(DATA$name[DATA$name != selected_name]))))
+                      choices = c("",NAMES$name[NAMES$name != selected_name & 
+                                                         NAMES$gender == input$genderInput]))
   })
   
   output$fis_dst <- renderPlot({

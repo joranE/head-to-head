@@ -8,25 +8,31 @@ shinyUI(dashboardPage(
     
     #Sidebar
     dashboardSidebar(
-      selectInput(inputId = "nameInput1",
+      selectInput(inputId = "genderInput",
+                  label = "Gender",
+                  choices = c("Men","Women"),
+                  selected = "Men"),
+      selectizeInput(inputId = "nameInput1",
                   label = "First Athlete",
-                  choices = c("Choose first athlete..." = "",NAMES),
-                  selected = NULL,
-                  selectize = TRUE),
+                  choices = "",
+                  selected = ""),
       helpText("...versus..."),
-      selectInput(inputId = "nameInput2",
+      selectizeInput(inputId = "nameInput2",
                   label = "Opposing athletes",
                   choices = "",
                   selected = "",
                   multiple = TRUE,
-                  selectize = TRUE),
+                  options = list(maxItems = 3)),
       checkboxInput(inputId = "byTech",label = "Summarise by technique",value = FALSE),
       hr(),
       menuItem(
         menuSubItem(text = "All FIS Results",tabName = "allFIS"),
         menuSubItem(text = "Major International",tabName = "majInt"),
         text = "Charts",
-        icon = icon("bar-chart"))
+        icon = icon("bar-chart")),
+      hr(),
+      helpText("sMPB: Standardized percent behind the median skier. This is only
+               used for major international distance events.")
     ),
     
     #Body
