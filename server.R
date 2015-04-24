@@ -4,7 +4,7 @@ source("load_data.R")
 source("load_names.R")
 source("helpers.R")
 
-shinyServer(function(input, output, session) {
+function(input, output, session) {
   
   #Update primary name choices based on gender selection
   observe({
@@ -62,5 +62,3 @@ shinyServer(function(input, output, session) {
   })
   
 }
-
-)

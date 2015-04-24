@@ -43,6 +43,7 @@ plot_fis_dst <- function(ath1,ath2,by_tech = FALSE){
     facet_wrap(~name.y.lab,ncol = 1) + 
     geom_hline(yintercept = 0,color = "black") + 
     geom_point() + 
+    scale_x_date(breaks = date_breaks(width = "1 year")) +
     labs(x = NULL,y = paste("FIS Points: Opponent -",ath1))
   
   if (by_tech){
@@ -93,6 +94,7 @@ plot_fis_spr <- function(ath1,ath2,by_tech = FALSE){
     facet_wrap(~name.y.lab,ncol = 1) + 
     geom_hline(yintercept = 0,color = "black") + 
     geom_point() + 
+    scale_x_date(breaks = date_breaks(width = "1 year")) +
     labs(x = NULL,y = paste("Finishing Place: Opponent -",ath1))
   
   if (by_tech){
@@ -144,6 +146,7 @@ plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
     facet_wrap(~name.y.lab,ncol = 1) + 
     geom_hline(yintercept = 0,color = "black") + 
     geom_point() + 
+    scale_x_date(breaks = date_breaks(width = "1 year")) +
     labs(x = NULL,y = paste("sMPB: Opponent -",ath1))
   
   if (by_tech){
@@ -198,6 +201,7 @@ plot_maj_spr <- function(ath1,ath2,by_tech = FALSE){
     facet_wrap(~name.y.lab,ncol = 1) + 
     geom_hline(yintercept = 0,color = "black") + 
     geom_point() + 
+    scale_x_date(breaks = date_breaks(width = "1 year")) +
     labs(x = NULL,y = paste("Finishing Place: Opponent -",ath1))
   
   if (by_tech){
