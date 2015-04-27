@@ -1,8 +1,8 @@
 library(shiny)
 library(shinydashboard)
+source("helpers.R")
 source("load_data.R")
 source("load_names.R")
-source("helpers.R")
 
 function(input, output, session) {
   

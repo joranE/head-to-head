@@ -11,8 +11,12 @@ won_loss_colors2 <- brewer.pal(11,"RdBu")[c(3:1,11:9)]
 MAJ_INT <- c("WC","WSC","OWG","OWG")
 
 plot_fis_dst <- function(ath1,ath2,by_tech = FALSE){
-  ath1_dat <- filter(DATA,name == ath1 & type == 'Distance')
-  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance')
+  if (length(ath2) == 1) ath2 <- c(ath2,ath2)
+  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  ath1_dat <- filter(DATA,name == ath1 & type == 'Distance') %>%
+    collect()
+  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance') %>%
+    collect()
   
   dat <- inner_join(ath1_dat,
                     ath2_dat,
@@ -62,8 +66,12 @@ plot_fis_dst <- function(ath1,ath2,by_tech = FALSE){
   p
 }
 plot_fis_spr <- function(ath1,ath2,by_tech = FALSE){
-  ath1_dat <- filter(DATA,name == ath1 & type == 'Sprint')
-  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Sprint')
+  if (length(ath2) == 1) ath2 <- c(ath2,ath2)
+  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  ath1_dat <- filter(DATA,name == ath1 & type == 'Sprint') %>%
+    collect()
+  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Sprint') %>%
+    collect()
   
   dat <- inner_join(ath1_dat,
                     ath2_dat,
@@ -114,8 +122,10 @@ plot_fis_spr <- function(ath1,ath2,by_tech = FALSE){
 }
 
 plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
-  ath1_dat <- filter(DATA,name == ath1 & type == 'Distance' & cat1 %in% MAJ_INT)
-  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance' & cat1 %in% MAJ_INT)
+  if (length(ath2) == 1) ath2 <- c(ath2,ath2)
+  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  ath1_dat <- filter(DATA,name == ath1 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
+  ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
   
   dat <- inner_join(ath1_dat,
                     ath2_dat,
@@ -165,12 +175,16 @@ plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
   p
 }
 plot_maj_spr <- function(ath1,ath2,by_tech = FALSE){
+  if (length(ath2) == 1) ath2 <- c(ath2,ath2)
+  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   ath1_dat <- filter(DATA,name == ath1 & 
                        type == 'Sprint' & 
-                       cat1 %in% MAJ_INT)
+                       cat1 %in% MAJ_INT) %>%
+    collect()
   ath2_dat <- filter(DATA,name %in% ath2 & 
                        type == 'Sprint' & 
-                       cat1 %in% MAJ_INT)
+                       cat1 %in% MAJ_INT) %>%
+    collect()
   
   dat <- inner_join(ath1_dat,
                     ath2_dat,
@@ -221,12 +235,13 @@ plot_maj_spr <- function(ath1,ath2,by_tech = FALSE){
 }
 
 won_loss <- function(ath1,ath2,maj_int = FALSE){
+  if (length(ath2) == 1) ath2 <- c(ath2,ath2)
   if (maj_int){
-    ath1_dat <- filter(DATA,name == ath1 & cat1 %in% MAJ_INT)
-    ath2_dat <- filter(DATA,name %in% ath2 & cat1 %in% MAJ_INT)
+    ath1_dat <- filter(DATA,name == ath1 & cat1 %in% MAJ_INT) %>% collect()
+    ath2_dat <- filter(DATA,name %in% ath2 & cat1 %in% MAJ_INT) %>% collect()
   }else{
-    ath1_dat <- filter(DATA,name == ath1)
-    ath2_dat <- filter(DATA,name %in% ath2)
+    ath1_dat <- filter(DATA,name == ath1) %>% collect()
+    ath2_dat <- filter(DATA,name %in% ath2) %>% collect()
   }
   
   dat <- inner_join(ath1_dat,
@@ -243,6 +258,7 @@ won_loss <- function(ath1,ath2,maj_int = FALSE){
 }
 
 won_loss_plot <- function(ath1,ath2,by_tech = FALSE,maj_int = FALSE){
+  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   commapos <- function(x, ...) {
     format(abs(x), big.mark = ",", trim = TRUE,
            scientific = FALSE, ...)
