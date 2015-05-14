@@ -24,7 +24,6 @@ sidebar <- dashboardSidebar(
                  multiple = TRUE,
                  options = list(maxItems = 3)),
   checkboxInput(inputId = "byTech",label = "Summarise by technique",value = FALSE),
-  submitButton("Apply Choices"),
   hr(),
   sidebarMenu(
     menuSubItem(text = "All FIS Results",tabName = "allFIS",icon = icon("bar-chart")),

@@ -12,7 +12,7 @@ MAJ_INT <- c("WC","WSC","OWG","OWG")
 
 plot_fis_dst <- function(ath1,ath2,by_tech = FALSE){
   if (length(ath2) == 1) ath2 <- c(ath2,ath2)
-  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  if (is.null(ath2) || missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   ath1_dat <- filter(DATA,name == ath1 & type == 'Distance') %>%
     collect()
   ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance') %>%
@@ -67,7 +67,7 @@ plot_fis_dst <- function(ath1,ath2,by_tech = FALSE){
 }
 plot_fis_spr <- function(ath1,ath2,by_tech = FALSE){
   if (length(ath2) == 1) ath2 <- c(ath2,ath2)
-  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  if (is.null(ath2) || missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   ath1_dat <- filter(DATA,name == ath1 & type == 'Sprint') %>%
     collect()
   ath2_dat <- filter(DATA,name %in% ath2 & type == 'Sprint') %>%
@@ -123,7 +123,7 @@ plot_fis_spr <- function(ath1,ath2,by_tech = FALSE){
 
 plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
   if (length(ath2) == 1) ath2 <- c(ath2,ath2)
-  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  if (is.null(ath2) || missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   ath1_dat <- filter(DATA,name == ath1 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
   ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
   
@@ -176,7 +176,7 @@ plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
 }
 plot_maj_spr <- function(ath1,ath2,by_tech = FALSE){
   if (length(ath2) == 1) ath2 <- c(ath2,ath2)
-  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  if (is.null(ath2) || missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   ath1_dat <- filter(DATA,name == ath1 & 
                        type == 'Sprint' & 
                        cat1 %in% MAJ_INT) %>%
@@ -258,7 +258,7 @@ won_loss <- function(ath1,ath2,maj_int = FALSE){
 }
 
 won_loss_plot <- function(ath1,ath2,by_tech = FALSE,maj_int = FALSE){
-  if (missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
+  if (is.null(ath2) || missing(ath1) || missing(ath2) || ath1 == "" || ath2 == "") return(NULL)
   commapos <- function(x, ...) {
     format(abs(x), big.mark = ",", trim = TRUE,
            scientific = FALSE, ...)

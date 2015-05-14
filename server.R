@@ -1,19 +1,29 @@
 library(shiny)
 library(shinydashboard)
-#library(Cairo)
-#options(shiny.usecairo = TRUE)
+library(Cairo)
+options(shiny.usecairo = TRUE)
 source("helpers.R")
 source("load_data.R")
 source("load_names.R")
 
 function(input, output, session) {
   
+  get_names1 <- reactive({
+    selected_gender <- input$genderInput
+    NAMES[NAMES$gender == selected_gender,]
+  })
+  
+  get_names2 <- reactive({
+    selected_gender <- input$genderInput
+    name1 <- input$nameInput1
+    NAMES[NAMES$gender == selected_gender & NAMES$name != name1,]
+  })
+  
   #Update primary name choices based on gender selection
   observe({
-    selected_gender <- input$genderInput
     updateSelectInput(session,
                       inputId = "nameInput1",
-                      choices = c("Select primary athlete..." = "",NAMES$name[NAMES$gender == selected_gender]))
+                      choices = c("Select primary athlete..." = "",get_names1()$name))
   })
   
   #Update opponent name selections based on primary name selection
@@ -21,8 +31,7 @@ function(input, output, session) {
     selected_name <- input$nameInput1
     updateSelectInput(session,
                       inputId = "nameInput2",
-                      choices = c("",NAMES$name[NAMES$name != selected_name & 
-                                                         NAMES$gender == input$genderInput]))
+                      choices = c("",get_names2()$name))
   })
   
   output$fis_dst <- renderPlot({
