@@ -127,10 +127,20 @@ plot_maj_dst <- function(ath1,ath2,by_tech = FALSE){
   ath1_dat <- filter(DATA,name == ath1 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
   ath2_dat <- filter(DATA,name %in% ath2 & type == 'Distance' & cat1 %in% MAJ_INT) %>% collect()
   
+  ath1_dat <- ath1_dat %>%
+    left_join(RACE_MEDIAN,by = "raceid") %>%
+    left_join(XC_FAC,by = c("gender","start","season")) %>%
+    mutate(mpb = ((100 * (time - median_time) / median_time) - mu) / sigma)
+  ath2_dat <- ath2_dat %>%
+    left_join(RACE_MEDIAN,by = "raceid") %>%
+    left_join(XC_FAC,by = c("gender","start","season")) %>%
+    mutate(mpb = ((100 * (time - median_time) / median_time) - mu) / sigma)
+  
   dat <- inner_join(ath1_dat,
                     ath2_dat,
                     by = "raceid")
   if (nrow(dat) == 0) return(NULL)
+  
   dat_fis <- dat %>%
     mutate(mpb.diff = mpb.x - mpb.y,
            name.y.lab     = paste("vs.",name.y)) %>%
