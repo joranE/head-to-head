@@ -1,7 +1,7 @@
-# library(statskier)
+# library(statskier2)
 # library(dplyr)
-# con <- db_xc()
-# x <- statskier::query(con,"select * from main")
+# conl <- db_xc_local()
+# x <- statskier2::ss_query(con,"select * from main")
 # 
 # x$cat2[x$cat2 == ""] <- NA
 # 
@@ -9,15 +9,19 @@
 # x <- split(x,maj_ind)
 # 
 # XC_FAC <- load_xc_conv()
-# x[[2]] <- standardize_mpb_xc(mpb(con,x[[2]],0.5),XC_FAC)
+# x[[2]] <- x[[2]] %>%
+#  mpb() %>%
+#  standardize_mpb()
 # x[[1]]$mpb <- NA
 # 
 # x <- do.call("rbind",x)
-# x <- arrange(x,id)
+# x <- dplyr::arrange(x,id)
 # 
-# x1 <- ddply(x,.(fisid),summarise,N = length(raceid))
-# x1 <- subset(x1,N >= 30)
-# x <- subset(x,fisid %in% x1$fisid)
+# x1 <- x %>%
+#   group_by(fisid) %>%
+#   summarise(N = n_distinct(raceid)) %>%
+#   filter(N >= 30)
+# x <- dplyr::filter(x,fisid %in% x1$fisid)
 # 
 # # write.table(x = x,
 # #             file = "fis.csv",
